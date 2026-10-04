@@ -1,4 +1,4 @@
-//import area
+import { useEffect, useRef, useState } from 'react';
 
 import './css/styles.css';
 
@@ -8,13 +8,367 @@ import checkInImage from './assets/images/check-in.png';
 import diarioImage from './assets/images/diario.png';
 
 export default function LandingPage() {
+  // ==============================
+  // PWA / INSTALAÇÃO
+  // ==============================
+
+  const installPromptRef = useRef(null);
+  const dialogRef = useRef(null);
+
+  const [installed, setInstalled] = useState(false);
+  const [installStatus, setInstallStatus] = useState(
+    'Disponível pela web.'
+  );
+
+  // ==============================
+  // REDIRECT DE AUTENTICAÇÃO
+  // ==============================
+
+  useEffect(() => {
+    const authKeys = [
+      'code',
+      'access_token',
+      'refresh_token',
+      'error',
+      'error_code',
+      'token_hash',
+    ];
+
+    const query = new URLSearchParams(window.location.search);
+    const fragment = new URLSearchParams(
+      window.location.hash.slice(1)
+    );
+
+    const hasAuthData = authKeys.some(
+      (key) => query.has(key) || fragment.has(key)
+    );
+
+    const isFlutterRoute = window.location.hash.startsWith('#/');
+
+    if (hasAuthData || isFlutterRoute) {
+      window.location.replace(
+        `/app${window.location.search}${window.location.hash}`
+      );
+    }
+  }, []);
+
+  // ==============================
+  // PWA
+  // ==============================
+
+  useEffect(() => {
+    const markInstalled = () => {
+      setInstalled(true);
+      setInstallStatus(
+        'Tudo pronto! Abra o aplicativo para continuar.'
+      );
+    };
+
+    // Já está instalado como PWA
+    if (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone
+    ) {
+      markInstalled();
+    }
+
+    const handleBeforeInstallPrompt = (event) => {
+      event.preventDefault();
+      installPromptRef.current = event;
+    };
+
+    const handleAppInstalled = () => {
+      installPromptRef.current = null;
+      markInstalled();
+    };
+
+    window.addEventListener(
+      'beforeinstallprompt',
+      handleBeforeInstallPrompt
+    );
+
+    window.addEventListener(
+      'appinstalled',
+      handleAppInstalled
+    );
+
+    return () => {
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt
+      );
+
+      window.removeEventListener(
+        'appinstalled',
+        handleAppInstalled
+      );
+    };
+  }, []);
+
+  // ==============================
+  // ABRIR INSTRUÇÕES
+  // ==============================
+
+  const showInstructions = () => {
+    const isIOS =
+      /iPad|iPhone|iPod/.test(window.navigator.userAgent) ||
+      (
+        window.navigator.platform === 'MacIntel' &&
+        window.navigator.maxTouchPoints > 1
+      );
+
+    const isAndroid =
+      /Android/.test(window.navigator.userAgent);
+
+    let instructions;
+
+    if (isIOS) {
+      instructions =
+        'No Safari, toque em Compartilhar, escolha Adicionar à Tela de Início e confirme.';
+    } else if (isAndroid) {
+      instructions =
+        'No Chrome, abra o menu ⋮ e escolha Adicionar à tela inicial ou Instalar aplicativo.';
+    } else {
+      instructions =
+        'No Chrome ou Edge, procure a opção de instalar na barra de endereços ou no menu.';
+    }
+
+    const dialog = dialogRef.current;
+
+    if (!dialog) return;
+
+    const instructionElement =
+      dialog.querySelector('#dialog-instructions');
+
+    if (instructionElement) {
+      instructionElement.textContent = instructions;
+    }
+
+    dialog.showModal();
+  };
+
+  // ==============================
+  // BOTÃO DE INSTALAÇÃO
+  // ==============================
+
+  const handleInstall = async () => {
+    const installPrompt = installPromptRef.current;
+
+    // O navegador não disponibilizou instalação automática
+    if (!installPrompt) {
+      showInstructions();
+      return;
+    }
+
+    installPromptRef.current = null;
+
+    try {
+      await installPrompt.prompt();
+
+      const { outcome } =
+        await installPrompt.userChoice;
+
+      if (outcome === 'accepted') {
+        setInstalled(true);
+        setInstallStatus(
+          'Tudo pronto! Abra o aplicativo para continuar.'
+        );
+      } else {
+        setInstallStatus(
+          'Você pode adicionar depois ou abrir o app no navegador.'
+        );
+      }
+    } catch {
+      showInstructions();
+    }
+  };
+
+  // ==============================
+  // FECHAR DIALOG
+  // ==============================
+
+  const closeDialog = () => {
+    dialogRef.current?.close();
+  };
+
+  const handleDialogClick = (event) => {
+    const dialog = dialogRef.current;
+
+    if (!dialog || event.target !== dialog) {
+      return;
+    }
+
+    const bounds =
+      dialog.getBoundingClientRect();
+
+    const clickedOutside =
+      event.clientX < bounds.left ||
+      event.clientX > bounds.right ||
+      event.clientY < bounds.top ||
+      event.clientY > bounds.bottom;
+
+    if (clickedOutside) {
+      dialog.close();
+    }
+  };
+
+  // ==============================
+  // ANIMAÇÕES
+  // ==============================
+
+  useEffect(() => {
+    const motion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    );
+
+    // Não anima se o usuário prefere menos movimento
+    if (motion.matches) return;
+
+    // Browser sem suporte
+    if (
+      typeof IntersectionObserver === 'undefined' ||
+      typeof Element === 'undefined' ||
+      !Element.prototype.animate
+    ) {
+      return;
+    }
+
+    const animations = new Set();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+
+          const element = entry.target;
+
+          observer.unobserve(element);
+
+          // Não esconder elemento que recebeu foco pelo teclado
+          if (
+            motion.matches ||
+            element.contains(document.activeElement)
+          ) {
+            continue;
+          }
+
+          const isCard =
+            element.matches(
+              '.feature, .screen-card'
+            );
+
+          const index = isCard
+            ? [...element.parentElement.children].indexOf(
+                element
+              )
+            : 0;
+
+          const animation = element.animate(
+            [
+              {
+                opacity: 0,
+                transform: 'translateY(20px)',
+              },
+              {
+                opacity: 1,
+                transform: 'translateY(0)',
+              },
+            ],
+            {
+              duration: 650,
+              delay: (index % 3) * 70,
+              easing:
+                'cubic-bezier(0.22, 1, 0.36, 1)',
+              fill: 'backwards',
+            }
+          );
+
+          animations.add(animation);
+
+          const finish = () => {
+            animations.delete(animation);
+          };
+
+          animation.addEventListener(
+            'finish',
+            finish,
+            { once: true }
+          );
+
+          animation.addEventListener(
+            'cancel',
+            finish,
+            { once: true }
+          );
+
+          element.addEventListener(
+            'focusin',
+            () => animation.cancel(),
+            { once: true }
+          );
+        }
+      },
+      {
+        threshold: 0.08,
+      }
+    );
+
+    const elements = document.querySelectorAll(
+      '.hero-copy, .hero-art, .section-heading, ' +
+      '.feature, .screen-card, .about-art, ' +
+      '.about-copy, .install-panel, .install-guide'
+    );
+
+    elements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    const handleMotionChange = (event) => {
+      if (!event.matches) return;
+
+      observer.disconnect();
+
+      for (const animation of animations) {
+        animation.cancel();
+      }
+
+      animations.clear();
+    };
+
+    motion.addEventListener(
+      'change',
+      handleMotionChange
+    );
+
+    return () => {
+      observer.disconnect();
+
+      for (const animation of animations) {
+        animation.cancel();
+      }
+
+      animations.clear();
+
+      motion.removeEventListener(
+        'change',
+        handleMotionChange
+      );
+    };
+  }, []);
+
   return (
     <>
-      <a className="skip-link" href="#conteudo">
+      {/* Skip link */}
+
+      <a
+        className="skip-link"
+        href="#conteudo"
+      >
         Pular para o conteúdo
       </a>
 
       {/* Biblioteca de SVGs */}
+
       <svg
         className="svg-library"
         aria-hidden="true"
@@ -34,13 +388,19 @@ export default function LandingPage() {
           </symbol>
 
           <symbol id="people" viewBox="0 0 24 24">
-            <circle cx="9" cy="7" r="3" />
+            <circle
+              cx="9"
+              cy="7"
+              r="3"
+            />
+
             <path d="M3 21v-3a6 6 0 0 1 12 0v3m1-17a3 3 0 0 1 0 6m3 11v-3a6 6 0 0 0-3-5" />
           </symbol>
         </defs>
       </svg>
 
       {/* Header */}
+
       <header className="header wrap">
         <a
           className="brand brand-purple"
@@ -65,6 +425,7 @@ export default function LandingPage() {
           href="/app"
         >
           Acessar o app
+
           <svg className="icon">
             <use href="#arrow" />
           </svg>
@@ -72,7 +433,9 @@ export default function LandingPage() {
       </header>
 
       <main id="conteudo">
+
         {/* Hero */}
+
         <section
           className="hero wrap"
           aria-labelledby="hero-title"
@@ -92,8 +455,9 @@ export default function LandingPage() {
             </h1>
 
             <p>
-              Registre seu dia e conecte-se ao profissional que acompanha
-              você. O Íris apoia pessoas com transtornos alimentares.
+              Registre seu dia e conecte-se ao profissional
+              que acompanha você. O Íris apoia pessoas com
+              transtornos alimentares.
             </p>
 
             <div className="hero-actions">
@@ -102,14 +466,20 @@ export default function LandingPage() {
                 href="#instalar"
               >
                 Usar o Íris
+
                 <svg className="icon">
                   <use href="#arrow" />
                 </svg>
               </a>
 
-              <a className="text-link" href="#sobre">
+              <a
+                className="text-link"
+                href="#sobre"
+              >
                 Conheça o projeto{' '}
-                <span aria-hidden="true">↗</span>
+                <span aria-hidden="true">
+                  ↗
+                </span>
               </a>
             </div>
           </div>
@@ -132,13 +502,16 @@ export default function LandingPage() {
         </section>
 
         {/* Recursos */}
+
         <section
           id="recursos"
           className="features wrap section-space"
         >
           <div className="section-heading">
             <div>
-              <span className="eyebrow">RECURSOS DO ÍRIS</span>
+              <span className="eyebrow">
+                RECURSOS DO ÍRIS
+              </span>
 
               <h2>
                 Registros e acompanhamento
@@ -149,6 +522,7 @@ export default function LandingPage() {
           </div>
 
           <div className="feature-grid">
+
             <article className="feature">
               <span className="feature-icon">
                 <svg className="icon">
@@ -156,9 +530,13 @@ export default function LandingPage() {
                 </svg>
               </span>
 
-              <span className="feature-number">01</span>
+              <span className="feature-number">
+                01
+              </span>
 
-              <h3>Registre seu dia</h3>
+              <h3>
+                Registre seu dia
+              </h3>
 
               <p>
                 Anote emoções e refeições e consulte seu histórico.
@@ -172,13 +550,17 @@ export default function LandingPage() {
                 </svg>
               </span>
 
-              <span className="feature-number">02</span>
+              <span className="feature-number">
+                02
+              </span>
 
-              <h3>Compartilhe o cuidado</h3>
+              <h3>
+                Compartilhe o cuidado
+              </h3>
 
               <p>
-                Use um convite QR para se vincular ao profissional e
-                consultar seu plano de cuidado.
+                Use um convite QR para se vincular ao profissional
+                e consultar seu plano de cuidado.
               </p>
             </article>
 
@@ -189,26 +571,40 @@ export default function LandingPage() {
                 </svg>
               </span>
 
-              <span className="feature-number">03</span>
+              <span className="feature-number">
+                03
+              </span>
 
-              <h3>Acompanhe pacientes</h3>
+              <h3>
+                Acompanhe pacientes
+              </h3>
 
               <p>
-                Organize consultas, registros, anotações e planos na
-                área profissional.
+                Organize consultas, registros, anotações e planos
+                na área profissional.
               </p>
             </article>
+
           </div>
         </section>
 
         {/* Telas */}
-        <section id="telas" className="screens-section">
+
+        <section
+          id="telas"
+          className="screens-section"
+        >
           <div className="wrap section-space">
+
             <div className="section-heading">
               <div>
-                <span className="eyebrow">POR DENTRO DO ÍRIS</span>
+                <span className="eyebrow">
+                  POR DENTRO DO ÍRIS
+                </span>
 
-                <h2>Conheça as telas do app.</h2>
+                <h2>
+                  Conheça as telas do app.
+                </h2>
               </div>
             </div>
 
@@ -217,7 +613,9 @@ export default function LandingPage() {
               id="screens-help"
             >
               Deslize para explorar as telas{' '}
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true">
+                →
+              </span>
             </p>
 
             <div
@@ -227,13 +625,16 @@ export default function LandingPage() {
               aria-label="Telas do aplicativo"
               aria-describedby="screens-help"
             >
+
               <figure className="screen-card">
                 <div className="screen-heading">
                   <span>01</span>
                   <h3>Hoje</h3>
                 </div>
 
-                <p>Resumo e acesso aos registros.</p>
+                <p>
+                  Resumo e acesso aos registros.
+                </p>
 
                 <div className="screen-image">
                   <img
@@ -252,7 +653,9 @@ export default function LandingPage() {
                   <h3>Check-in diário</h3>
                 </div>
 
-                <p>Registre como foi seu dia.</p>
+                <p>
+                  Registre como foi seu dia.
+                </p>
 
                 <div className="screen-image">
                   <img
@@ -271,7 +674,9 @@ export default function LandingPage() {
                   <h3>Diário emocional</h3>
                 </div>
 
-                <p>Escreva sobre o que sentiu.</p>
+                <p>
+                  Escreva sobre o que sentiu.
+                </p>
 
                 <div className="screen-image">
                   <img
@@ -283,6 +688,7 @@ export default function LandingPage() {
                   />
                 </div>
               </figure>
+
             </div>
 
             <p className="screens-caption">
@@ -292,6 +698,7 @@ export default function LandingPage() {
         </section>
 
         {/* Sobre */}
+
         <section
           id="sobre"
           className="about wrap section-space"
@@ -312,7 +719,9 @@ export default function LandingPage() {
           </div>
 
           <div className="about-copy">
-            <span className="eyebrow">O PROJETO</span>
+            <span className="eyebrow">
+              O PROJETO
+            </span>
 
             <h2>
               Tecnologia para apoiar
@@ -330,10 +739,17 @@ export default function LandingPage() {
         </section>
 
         {/* Instalação */}
-        <section id="instalar" className="install wrap">
+
+        <section
+          id="instalar"
+          className="install wrap"
+        >
           <div className="install-panel">
+
             <div>
-              <span className="eyebrow">ACESSO AO APP</span>
+              <span className="eyebrow">
+                ACESSO AO APP
+              </span>
 
               <h2>
                 Use no navegador
@@ -346,13 +762,21 @@ export default function LandingPage() {
               </p>
 
               <div className="install-actions">
+
                 <button
                   className="button button-light"
                   id="install-button"
                   type="button"
+                  onClick={handleInstall}
+                  disabled={installed}
                 >
-                  Adicionar à tela inicial{' '}
-                  <span aria-hidden="true">↓</span>
+                  {installed
+                    ? 'Íris adicionado à tela inicial'
+                    : 'Adicionar à tela inicial'}
+
+                  <span aria-hidden="true">
+                    ↓
+                  </span>
                 </button>
 
                 <a
@@ -360,10 +784,12 @@ export default function LandingPage() {
                   href="/app"
                 >
                   Abrir o aplicativo
+
                   <svg className="icon">
                     <use href="#arrow" />
                   </svg>
                 </a>
+
               </div>
 
               <p
@@ -371,27 +797,32 @@ export default function LandingPage() {
                 id="install-status"
                 role="status"
               >
-                Disponível pela web.
+                {installStatus}
               </p>
+
             </div>
 
             <img
               className="install-logo"
-              src={ irisLogo}
+              src={irisLogo}
               width="270"
               height="130"
               alt=""
               aria-hidden="true"
             />
+
           </div>
 
           <div
             className="install-guide"
             id="install-guide"
           >
-            <h3>Como adicionar ao celular</h3>
+            <h3>
+              Como adicionar ao celular
+            </h3>
 
             <div className="guide-grid">
+
               <p>
                 <strong>
                   <span>01</span> Android · Chrome
@@ -410,12 +841,15 @@ export default function LandingPage() {
                 Toque em <b>Compartilhar</b>, depois em{' '}
                 <b>Adicionar à Tela de Início</b> e confirme.
               </p>
+
             </div>
           </div>
         </section>
+
       </main>
 
       {/* Footer */}
+
       <footer className="footer wrap">
         <a
           className="brand brand-purple"
@@ -423,7 +857,7 @@ export default function LandingPage() {
           aria-label="Íris, início"
         >
           <img
-            src={ irisLogo}
+            src={irisLogo}
             width="270"
             height="130"
             alt="Íris"
@@ -441,14 +875,18 @@ export default function LandingPage() {
       </footer>
 
       {/* Dialog */}
+
       <dialog
+        ref={dialogRef}
         id="install-dialog"
         aria-labelledby="dialog-title"
+        onClick={handleDialogClick}
       >
         <button
           className="dialog-close"
           aria-label="Fechar instruções"
           type="button"
+          onClick={closeDialog}
         >
           ×
         </button>
@@ -468,6 +906,7 @@ export default function LandingPage() {
           href="/app"
         >
           Abrir o Íris
+
           <svg className="icon">
             <use href="#arrow" />
           </svg>

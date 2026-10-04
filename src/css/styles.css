@@ -1,6 +1,6 @@
 /* Identidade compartilhada com lib/core/theme/app_theme.dart e app_tokens.dart. */
-@font-face { font-family: Roboto; src: url('Iris-Landing-Page/public/fonts/roboto-regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
-@font-face { font-family: Roboto; src: url('Iris-Landing-Page/public/fonts/roboto-bold.ttf') format('truetype'); font-weight: 600 900; font-display: swap; }
+@font-face { font-family: Roboto; src: url('../../public/fonts/roboto-regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: Roboto; src: url('../../public/fonts/roboto-bold.ttf') format('truetype'); font-weight: 600 900; font-display: swap; }
 :root {
   --paper: #faf9f6; --ink: #28174e; --purple: #462a7e; --brand: #7d6ac6;
   --brand-accessible: #7a67c2; --lavender: #dbcfff; --text: #241b35;
@@ -18,7 +18,7 @@ img, svg { display: block; }
 .wrap { max-width: 1200px; width: calc(100% - 64px); margin-inline: auto; }
 .header { min-height: 104px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .brand img { width: 124px; height: 60px; object-fit: contain; }
-.brand-purple { background: var(--purple); mask: url('/Iris-Landing-Page/src/assets/images/iris-logo.svg') center / contain no-repeat; }
+.brand-purple { background: var(--purple); mask: url('../assets/images/iris-logo.svg') center / contain no-repeat; }
 .brand-purple img { opacity: 0; }
 .header nav { display: flex; gap: 32px; font-size: 14px; color: var(--muted); }
 .header nav a:hover, .footer>a:last-child:hover { color: var(--purple); }
