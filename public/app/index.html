@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/app/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Íris: registros e acompanhamento entre pacientes e profissionais de saúde.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="iris">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Íris — seu espaço de cuidado</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: #38216d;
+    }
+
+    #iris-bootstrap {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #7d68c8 0%, #38216d 72%);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #iris-bootstrap .iris-wordmark {
+      font-size: 52px;
+      font-weight: 300;
+      letter-spacing: 8px;
+    }
+
+    #iris-bootstrap .iris-spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgb(255 255 255 / 28%);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: iris-spin 0.8s linear infinite;
+    }
+
+    #iris-bootstrap .iris-status {
+      min-height: 20px;
+      color: #eee9ff;
+      font-size: 15px;
+    }
+
+    @keyframes iris-spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="iris-bootstrap" role="status" aria-live="polite">
+    <div class="iris-wordmark">ÍRIS</div>
+    <div class="iris-spinner" aria-hidden="true"></div>
+    <div class="iris-status">Carregando...</div>
+  </div>
+  <script>
+    (() => {
+      const loading = document.getElementById('iris-bootstrap');
+      const status = loading.querySelector('.iris-status');
+
+      window.addEventListener('flutter-first-frame', () => loading.remove(), {
+        once: true,
+      });
+
+      const showBootstrapError = () => {
+        status.textContent = 'Não foi possível iniciar. Recarregue a página.';
+      };
+
+      window.addEventListener('error', showBootstrapError);
+      window.addEventListener('unhandledrejection', showBootstrapError);
+
+      window.setTimeout(() => {
+        if (loading.isConnected && status.textContent === 'Carregando...') {
+          status.textContent = 'Preparando o aplicativo...';
+        }
+      }, 5000);
+    })();
+  </script>
+  <script>
+    // Some remote browser previews expose POSIX locale names such as
+    // "en-US@posix", which are not valid BCP 47 language tags. Flutter reads
+    // these values before main() and otherwise fails with a blank screen.
+    (() => {
+      const fallbackLocale = 'pt-BR';
+      const normalizeLocale = (locale) => {
+        if (typeof locale !== 'string' || locale.length === 0) {
+          return fallbackLocale;
+        }
+
+        const normalized = locale
+          .split('.')[0]
+          .split('@')[0]
+          .replaceAll('_', '-');
+
+        try {
+          return Intl.getCanonicalLocales(normalized)[0] || fallbackLocale;
+        } catch (_) {
+          return fallbackLocale;
+        }
+      };
+
+      const language = normalizeLocale(navigator.language);
+      const languages = (navigator.languages || [language]).map(normalizeLocale);
+
+      Object.defineProperty(navigator, 'language', {
+        configurable: true,
+        get: () => language,
+      });
+      Object.defineProperty(navigator, 'languages', {
+        configurable: true,
+        get: () => languages,
+      });
+    })();
+  </script>
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
+
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <!-- Required by the passkeys_web plugin pulled in by supabase_flutter. -->
+  <script src="passkeys_bundle.js" type="application/javascript"></script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
