@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 
 import './css/styles.css';
 
@@ -19,27 +19,6 @@ export default function LandingPage() {
     closeDialog,
     handleDialogClick,
   } = usePwaInstall()
-
-  const handleDialogClick = (event) => {
-    const dialog = dialogRef.current;
-
-    if (!dialog || event.target !== dialog) {
-      return;
-    }
-
-    const bounds =
-      dialog.getBoundingClientRect();
-
-    const clickedOutside =
-      event.clientX < bounds.left ||
-      event.clientX > bounds.right ||
-      event.clientY < bounds.top ||
-      event.clientY > bounds.bottom;
-
-    if (clickedOutside) {
-      dialog.close();
-    }
-  };
 
   // ==============================
   // ANIMAÇÕES
