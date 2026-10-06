@@ -1,17 +1,17 @@
 import './css/styles.css';
 
 import irisLogo from './assets/images/iris-logo.svg';
-import hojeImage from './assets/images/hoje.png';
-import checkInImage from './assets/images/check-in.png';
-import diarioImage from './assets/images/diario.png';
 
 import {usePwaInstall} from './hooks/usePwaInstall.js'
 import {useScrollAnimations} from './hooks/useScrollAnimation.js'
 
 import Header from './components/Header/Header.jsx'
+import Hero from './components/Hero/Hero.jsx'
+import Recursos from './components/Recursos/Recursos.jsx';
+import Telas from './components/Telas/Telas.jsx';
 
 export default function LandingPage() {
-  
+
   const {
     dialogRef,
     installed,
@@ -66,272 +66,25 @@ export default function LandingPage() {
         </defs>
       </svg>
 
+      {/* components */}
+      {/* Header */}
+
       <Header />
+
 
       <main id="conteudo">
 
         {/* Hero */}
 
-        <section
-          className="hero wrap"
-          aria-labelledby="hero-title"
-        >
-          <div className="hero-copy">
-            <span className="eyebrow">
-              <span className="status-dot"></span>
-              TECNOLOGIA COM ACOLHIMENTO
-            </span>
-
-            <h1 id="hero-title">
-              Um passo de
-              <br />
-              cada vez.
-              <br />
-              <em>No seu ritmo.</em>
-            </h1>
-
-            <p>
-              Registre seu dia e conecte-se ao profissional
-              que acompanha você. O Íris apoia pessoas com
-              transtornos alimentares.
-            </p>
-
-            <div className="hero-actions">
-              <a
-                className="button button-light"
-                href="#instalar"
-              >
-                Usar o Íris
-
-                <svg className="icon">
-                  <use href="#arrow" />
-                </svg>
-              </a>
-
-              <a
-                className="text-link"
-                href="#sobre"
-              >
-                Conheça o projeto{' '}
-                <span aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-            </div>
-          </div>
-
-          <figure className="hero-art">
-            <div className="phone-frame">
-              <img
-                src={hojeImage}
-                width="780"
-                height="1688"
-                alt="Tela Hoje do Íris com resumo de alimentação, humor, check-in e recursos do dia a dia."
-                fetchPriority="high"
-              />
-            </div>
-
-            <figcaption>
-              Tela do aplicativo · dados de demonstração
-            </figcaption>
-          </figure>
-        </section>
+        <Hero />
 
         {/* Recursos */}
 
-        <section
-          id="recursos"
-          className="features wrap section-space"
-        >
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">
-                RECURSOS DO ÍRIS
-              </span>
-
-              <h2>
-                Registros e acompanhamento
-                <br />
-                em um só lugar.
-              </h2>
-            </div>
-          </div>
-
-          <div className="feature-grid">
-
-            <article className="feature">
-              <span className="feature-icon">
-                <svg className="icon">
-                  <use href="#book" />
-                </svg>
-              </span>
-
-              <span className="feature-number">
-                01
-              </span>
-
-              <h3>
-                Registre seu dia
-              </h3>
-
-              <p>
-                Anote emoções e refeições e consulte seu histórico.
-              </p>
-            </article>
-
-            <article className="feature">
-              <span className="feature-icon">
-                <svg className="icon">
-                  <use href="#people" />
-                </svg>
-              </span>
-
-              <span className="feature-number">
-                02
-              </span>
-
-              <h3>
-                Compartilhe o cuidado
-              </h3>
-
-              <p>
-                Use um convite QR para se vincular ao profissional
-                e consultar seu plano de cuidado.
-              </p>
-            </article>
-
-            <article className="feature">
-              <span className="feature-icon">
-                <svg className="icon">
-                  <use href="#heart" />
-                </svg>
-              </span>
-
-              <span className="feature-number">
-                03
-              </span>
-
-              <h3>
-                Acompanhe pacientes
-              </h3>
-
-              <p>
-                Organize consultas, registros, anotações e planos
-                na área profissional.
-              </p>
-            </article>
-
-          </div>
-        </section>
+        <Recursos />
 
         {/* Telas */}
 
-        <section
-          id="telas"
-          className="screens-section"
-        >
-          <div className="wrap section-space">
-
-            <div className="section-heading">
-              <div>
-                <span className="eyebrow">
-                  POR DENTRO DO ÍRIS
-                </span>
-
-                <h2>
-                  Conheça as telas do app.
-                </h2>
-              </div>
-            </div>
-
-            <p
-              className="screens-swipe-hint"
-              id="screens-help"
-            >
-              Deslize para explorar as telas{' '}
-              <span aria-hidden="true">
-                →
-              </span>
-            </p>
-
-            <div
-              className="screens-grid"
-              tabIndex="0"
-              role="region"
-              aria-label="Telas do aplicativo"
-              aria-describedby="screens-help"
-            >
-
-              <figure className="screen-card">
-                <div className="screen-heading">
-                  <span>01</span>
-                  <h3>Hoje</h3>
-                </div>
-
-                <p>
-                  Resumo e acesso aos registros.
-                </p>
-
-                <div className="screen-image">
-                  <img
-                    src={hojeImage}
-                    width="780"
-                    height="1688"
-                    loading="lazy"
-                    alt="Tela Hoje do aplicativo Íris."
-                  />
-                </div>
-              </figure>
-
-              <figure className="screen-card">
-                <div className="screen-heading">
-                  <span>02</span>
-                  <h3>Check-in diário</h3>
-                </div>
-
-                <p>
-                  Registre como foi seu dia.
-                </p>
-
-                <div className="screen-image">
-                  <img
-                    src={checkInImage}
-                    width="780"
-                    height="1688"
-                    loading="lazy"
-                    alt="Tela Check-in diário do aplicativo Íris."
-                  />
-                </div>
-              </figure>
-
-              <figure className="screen-card">
-                <div className="screen-heading">
-                  <span>03</span>
-                  <h3>Diário emocional</h3>
-                </div>
-
-                <p>
-                  Escreva sobre o que sentiu.
-                </p>
-
-                <div className="screen-image">
-                  <img
-                    src={diarioImage}
-                    width="780"
-                    height="1688"
-                    loading="lazy"
-                    alt="Tela Diário emocional do aplicativo Íris."
-                  />
-                </div>
-              </figure>
-
-            </div>
-
-            <p className="screens-caption">
-              Telas do aplicativo com dados de demonstração.
-            </p>
-          </div>
-        </section>
+        <Telas />
 
         {/* Sobre */}
 
