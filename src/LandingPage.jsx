@@ -1,7 +1,5 @@
 import './css/styles.css';
 
-import irisLogo from './assets/images/iris-logo.svg';
-
 import {usePwaInstall} from './hooks/usePwaInstall.js'
 import {useScrollAnimations} from './hooks/useScrollAnimation.js'
 
@@ -9,6 +7,9 @@ import Header from './components/Header/Header.jsx'
 import Hero from './components/Hero/Hero.jsx'
 import Recursos from './components/Recursos/Recursos.jsx';
 import Telas from './components/Telas/Telas.jsx';
+import Sobre from './components/Sobre/Sobre.jsx';
+import Install from './components/Install/Install.jsx';
+import Footer from './components/Footer/Footer.jsx';
 
 export default function LandingPage() {
 
@@ -88,180 +89,21 @@ export default function LandingPage() {
 
         {/* Sobre */}
 
-        <section
-          id="sobre"
-          className="about wrap section-space"
-        >
-          <div className="about-art">
-            <img
-              src={irisLogo}
-              width="270"
-              height="130"
-              alt="Íris"
-            />
-
-            <span>
-              Um passo de cada vez.
-              <br />
-              No seu ritmo.
-            </span>
-          </div>
-
-          <div className="about-copy">
-            <span className="eyebrow">
-              O PROJETO
-            </span>
-
-            <h2>
-              Tecnologia para apoiar
-              <br />
-              o cuidado em conjunto.
-            </h2>
-
-            <p>
-              O Íris é um Trabalho de Conclusão de Curso de
-              Desenvolvimento de Sistemas da ETEC Dr. Julio Cardoso.
-              Reúne registros do paciente e ferramentas de
-              acompanhamento profissional.
-            </p>
-          </div>
-        </section>
+        <Sobre />
 
         {/* Instalação */}
 
-        <section
-          id="instalar"
-          className="install wrap"
-        >
-          <div className="install-panel">
-
-            <div>
-              <span className="eyebrow">
-                ACESSO AO APP
-              </span>
-
-              <h2>
-                Use no navegador
-                <br />
-                ou na tela inicial.
-              </h2>
-
-              <p>
-                Abra o Íris pela web ou adicione um atalho ao celular.
-              </p>
-
-              <div className="install-actions">
-
-                <button
-                  className="button button-light"
-                  id="install-button"
-                  type="button"
-                  onClick={handleInstall}
-                  disabled={installed}
-                >
-                  {installed
-                    ? 'Íris adicionado à tela inicial'
-                    : 'Adicionar à tela inicial'}
-
-                  <span aria-hidden="true">
-                    ↓
-                  </span>
-                </button>
-
-                <a
-                  className="button button-white-outline"
-                  href="/app"
-                >
-                  Abrir o aplicativo
-
-                  <svg className="icon">
-                    <use href="#arrow" />
-                  </svg>
-                </a>
-
-              </div>
-
-              <p
-                className="install-note"
-                id="install-status"
-                role="status"
-              >
-                {installStatus}
-              </p>
-
-            </div>
-
-            <img
-              className="install-logo"
-              src={irisLogo}
-              width="270"
-              height="130"
-              alt=""
-              aria-hidden="true"
-            />
-
-          </div>
-
-          <div
-            className="install-guide"
-            id="install-guide"
-          >
-            <h3>
-              Como adicionar ao celular
-            </h3>
-
-            <div className="guide-grid">
-
-              <p>
-                <strong>
-                  <span>01</span> Android · Chrome
-                </strong>
-
-                No navegador, toque em <b>⋮</b> e escolha{' '}
-                <b>Adicionar à tela inicial</b> ou{' '}
-                <b>Instalar aplicativo</b>.
-              </p>
-
-              <p>
-                <strong>
-                  <span>02</span> iPhone · Safari
-                </strong>
-
-                Toque em <b>Compartilhar</b>, depois em{' '}
-                <b>Adicionar à Tela de Início</b> e confirme.
-              </p>
-
-            </div>
-          </div>
-        </section>
+        <Install
+          handleInstall={handleInstall}
+          installed={installed}
+          installStatus={installStatus}
+        />
 
       </main>
 
       {/* Footer */}
 
-      <footer className="footer wrap">
-        <a
-          className="brand brand-purple"
-          href="/"
-          aria-label="Íris, início"
-        >
-          <img
-            src={irisLogo}
-            width="270"
-            height="130"
-            alt="Íris"
-          />
-        </a>
-
-        <p>
-          O Íris é uma ferramenta de apoio e não substitui o
-          atendimento profissional.
-        </p>
-
-        <a href="#conteudo">
-          Voltar ao início ↑
-        </a>
-      </footer>
+      <Footer />
 
       {/* Dialog */}
 
