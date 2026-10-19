@@ -1,0 +1,5 @@
+.skip-link { position: absolute; top: -80px; left: 16px; z-index: 10; background: var(--purple); color: white; padding: 16px; }
+
+.skip-link:focus { top: 12px; }
+
+:focus-visible { outline: 3px solid #a58ad7; outline-offset: 5px; }

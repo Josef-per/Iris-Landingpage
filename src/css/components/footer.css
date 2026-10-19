@@ -1,0 +1,15 @@
+.header nav a:hover, .footer>a:last-child:hover { color: var(--purple); }
+
+.footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 24px; border-top: 1px solid var(--line); }
+
+.footer p { font-size: 12px; line-height: 1.8; color: var(--muted); }
+
+.footer>a:last-child { font-size: 12px; color: var(--purple); }
+
+@media (max-width: 700px) {
+  .footer { flex-wrap: wrap; }
+}
+
+@media (max-width: 700px) {
+  .footer p { order: 3; flex-basis: 100%; }
+}

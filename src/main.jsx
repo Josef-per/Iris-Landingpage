@@ -6,6 +6,8 @@ import {
   Route,
 } from 'react-router-dom';
 
+import "./css/index.css"
+
 import LandingPage from './pages/LandingPage';
 
 createRoot(document.getElementById('root')).render(

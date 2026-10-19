@@ -1,0 +1,15 @@
+/* arquivo de importação de estilos gerais */
+@import "./variables.css";
+@import "./global.css";
+@import "./layout.css";
+
+@import "./components/header.css";
+@import "./components/buttons.css";
+@import "./components/hero.css";
+@import "./components/features.css";
+@import "./components/screens.css";
+@import "./components/about.css";
+@import "./components/install.css";
+@import "./components/footer.css";
+@import "./components/dialog.css";
+@import "./components/accessibility.css";

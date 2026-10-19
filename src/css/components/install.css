@@ -1,0 +1,49 @@
+.install { padding-bottom: 64px; }
+
+.install-panel { display: flex; align-items: center; justify-content: space-between; gap: 32px; background: var(--gradient); color: white; border-radius: 32px; padding: 48px; }
+
+.install-panel h2 { margin-top: 16px; }
+
+.install-panel p { color: #eee8fa; max-width: 490px; font-size: 15px; line-height: 1.7; margin-top: 20px; }
+
+.install-panel .install-note { font-size: 12px; }
+
+.install-logo { width: 220px; height: auto; }
+
+.install-guide { margin: 32px 16px 0; }
+
+.install-guide h3 { font-size: 16px; }
+
+.guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 20px; }
+
+.guide-grid p { font-size: 13px; line-height: 1.8; color: var(--muted); }
+
+.guide-grid strong { display: block; color: var(--purple); margin-bottom: 8px; }
+
+.guide-grid strong span { margin-right: 8px; }
+
+.guide-grid b { color: var(--text); font-weight: 600; }
+
+@media (max-width: 1000px) {
+  .install-logo { width: 160px; }
+}
+
+@media (max-width: 700px) {
+  .install-panel { padding: 32px 24px; border-radius: 20px; }
+}
+
+@media (max-width: 700px) {
+  .install-logo { display: none; }
+}
+
+@media (max-width: 700px) {
+  .install-actions { flex-direction: column; align-items: stretch; }
+}
+
+@media (max-width: 700px) {
+  .install-guide { margin-inline: 8px; }
+}
+
+@media (max-width: 700px) {
+  .guide-grid { gap: 24px; }
+}

@@ -1,0 +1,33 @@
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 16px; min-height: 52px; padding: 14px 22px; border: 1px solid transparent; border-radius: 16px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s; }
+
+.button-primary, .button-outline { background: var(--purple); color: white; }
+
+.button-primary:hover, .button-outline:hover { background: var(--ink); }
+
+.button-small { min-height: 48px; }
+
+.button-light { background: white; color: var(--purple); }
+
+.button-light:hover { background: var(--lavender); }
+
+.button-white-outline { border-color: #b6a4d4; color: white; }
+
+.button-white-outline:hover { background: #ffffff18; }
+
+button:disabled { cursor: default; opacity: .85; }
+
+@media (max-width: 700px) {
+  .button-small { padding: 12px 16px; font-size: 13px; }
+}
+
+@media (max-width: 700px) {
+  .hero-actions .button-light { background: var(--purple); color: white; }
+}
+
+@media (max-width: 700px) {
+  .hero-actions .button-light:hover { background: var(--ink); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+}
