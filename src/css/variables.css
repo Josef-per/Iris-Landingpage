@@ -1,0 +1,14 @@
+/* Tokens visuais compartilhados do site */
+
+:root {
+  --paper: #faf9f6;
+  --ink: #28174e;
+  --purple: #462a7e;
+  --brand: #7d6ac6;
+  --brand-accessible: #7a67c2;
+  --lavender: #dbcfff;
+  --text: #241b35;
+  --muted: #756d82;
+  --line: #e5dfeb;
+  --gradient: linear-gradient(135deg, var(--brand-accessible), var(--purple), var(--ink));
+}
