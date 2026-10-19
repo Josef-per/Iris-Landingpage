@@ -8,30 +8,32 @@ export default function Header (){
         <>
             <header className="header wrap">
                 <a
-                className="brand brand-purple"
-                href="/"
-                aria-label="Íris, início"
+                  className="brand brand-purple"
+                  href="/"
+                  aria-label="Íris, início"
                 >
-                <img
-                    src={irisLogo}
-                    width="270"
-                    height="130"
-                    alt="Íris"
-                />
+                  <img
+                      src={irisLogo}
+                      width="270"
+                      height="130"
+                      alt="Íris"
+                  />
                 </a>
 
                 <nav aria-label="Menu principal">
                     <a href="#sobre">O projeto</a>
+                    <a href='#recursos'>Recursos</a>
                     <a href="#telas">Telas do app</a>
+                    <a href='#sobre'>Sobre nós</a>
                 </nav>
 
                 <a
-                className="button button-small button-outline"
-                href="/app"
+                  className="button button-small button-outline"
+                  href="/app"
                 >
-                Acessar o app
+                  Acessar o app
 
-                <MoveRight />
+                  <MoveRight />
                 </a>
             </header>
         </>
