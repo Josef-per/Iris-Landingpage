@@ -2,6 +2,7 @@
 
 
 //import de imagens
+import {BookOpen, UserGroup, Heart} from "lucide-react"
 
 export default function Recursos() {
 
@@ -32,9 +33,7 @@ export default function Recursos() {
 
           <article className="feature">
             <span className="feature-icon">
-              <svg className="icon">
-                <use href="#book" />
-              </svg>
+              <BookOpen />
             </span>
 
             <span className="feature-number">
@@ -52,9 +51,7 @@ export default function Recursos() {
 
           <article className="feature">
             <span className="feature-icon">
-              <svg className="icon">
-                <use href="#people" />
-              </svg>
+              <UserGroup />
             </span>
 
             <span className="feature-number">
@@ -73,9 +70,7 @@ export default function Recursos() {
 
           <article className="feature">
             <span className="feature-icon">
-              <svg className="icon">
-                <use href="#heart" />
-              </svg>
+              <Heart />
             </span>
 
             <span className="feature-number">

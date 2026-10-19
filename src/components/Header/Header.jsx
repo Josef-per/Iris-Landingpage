@@ -1,6 +1,8 @@
 //import de imagens
 import irisLogo from '../../assets/images/iris-logo.svg';
 
+import {MoveRight} from "lucide-react"
+
 export default function Header (){
     return (
         <>
@@ -29,9 +31,7 @@ export default function Header (){
                 >
                 Acessar o app
 
-                <svg className="icon">
-                    <use href="#arrow" />
-                </svg>
+                <MoveRight />
                 </a>
             </header>
         </>

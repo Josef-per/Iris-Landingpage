@@ -4,6 +4,8 @@
 // import de imagens
 import hojeImage from '../../assets/images/hoje.png'
 
+import {MoveRight} from "lucide-react"
+
 export default function Hero() {
   return (
     <>
@@ -38,9 +40,7 @@ export default function Hero() {
             >
               Usar o Íris
 
-              <svg className="icon">
-                <use href="#arrow" />
-              </svg>
+              <MoveRight />
             </a>
 
             <a

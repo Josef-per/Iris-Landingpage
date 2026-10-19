@@ -4,6 +4,8 @@
 
 import irisLogo from '../../assets/images/iris-logo.svg'
 
+import {MoveRight} from "lucide-react"
+
 export default function Install({
   handleInstall,
   installed,
@@ -56,9 +58,7 @@ export default function Install({
               >
                 Abrir o aplicativo
 
-                <svg className="icon">
-                  <use href="#arrow" />
-                </svg>
+                <MoveRight />
               </a>
 
             </div>
