@@ -1,10 +1,6 @@
-//import area
 
-
-//import de imagens
-import { BookOpen, UserGroup, Heart} from "lucide-react"
-
-import Article from "./Articles/Article"
+import HowWorks from "./Recursos-Sections/HowWorks"
+import Cards from "./Recursos-Sections/Cards"
 
 export default function Recursos() {
 
@@ -13,51 +9,9 @@ export default function Recursos() {
 
   return (
     <>
-      <section
-        id="recursos"
-        className="features wrap section-space"
-      >
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">
-              RECURSOS DO ÍRIS
-            </span>
+      <Cards />
 
-            <h2>
-              Registros e acompanhamento
-              <br />
-              em um só lugar.
-            </h2>
-          </div>
-        </div>
-
-        <div className="feature-grid">
-
-          <Article
-            icon={<BookOpen />}
-            number="01"
-            title="Registre seu dia"
-            description="Anote emoções e refeições e consulte seu histórico."
-          />
-
-          <Article
-            icon={<UserGroup />}
-            number="01"
-            title="Registre seu dia"
-            description="Anote emoções e refeições e consulte seu histórico."
-          />
-
-          <Article
-            icon={<Heart />}
-            number="01"
-            title="Registre seu dia"
-            description="Anote emoções e refeições e consulte seu histórico."
-          />
-
-
-
-        </div>
-      </section>
+      <HowWorks />
     </>
   )
 }

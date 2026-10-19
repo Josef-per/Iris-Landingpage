@@ -1,0 +1,233 @@
+.how-it-works {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(48px, 9vw, 140px);
+
+  padding-top: 64px;
+  padding-bottom: 80px;
+
+  color: var(--ink);
+}
+
+/* LADO ESQUERDO */
+
+.how-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.how-heading .eyebrow {
+  display: block;
+  margin-bottom: 26px;
+
+  color: var(--brand-accessible);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.how-heading h2 {
+  margin: 0;
+
+  color: var(--ink);
+  font-size: clamp(42px, 4.5vw, 60px);
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -2.5px;
+}
+
+.how-heading h2 span {
+  color: var(--brand);
+}
+
+.how-heading p {
+  max-width: 350px;
+  margin: 26px 0 0;
+
+  color: var(--muted);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+/* DECORAÇÃO DO CORAÇÃO */
+
+.heart-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 50px;
+}
+
+.heart-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--line);
+  border-radius: 50%;
+
+  color: var(--brand-accessible);
+}
+
+.heart-circle-outer {
+  width: 130px;
+  height: 130px;
+}
+
+.heart-circle-middle {
+  width: 100px;
+  height: 100px;
+}
+
+.heart-circle-inner {
+  width: 72px;
+  height: 72px;
+}
+
+.heart-circle-inner svg {
+  width: 34px;
+  height: 34px;
+}
+
+/* LADO DIREITO: LISTA DE ETAPAS */
+
+.how-steps {
+  min-width: 0;
+  border-top: 1px solid var(--line);
+}
+
+.how-step {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 26px;
+
+  min-height: 117px;
+  padding: 22px 0;
+
+  border-bottom: 1px solid var(--line);
+}
+
+.step-number {
+  color: var(--lavender);
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.step-content {
+  min-width: 0;
+}
+
+.step-content h3 {
+  margin: 0 0 8px;
+
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+
+.step-content p {
+  margin: 0;
+
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.step-arrow {
+  justify-self: end;
+  align-self: center;
+
+  color: var(--brand-accessible);
+  transition: transform 0.25s ease;
+}
+
+/* INTERAÇÃO SUTIL */
+
+.how-step:hover .step-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 900px) {
+  .how-it-works {
+    gap: 48px;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+
+  .how-step {
+    grid-template-columns: 58px minmax(0, 1fr) 18px;
+    gap: 16px;
+  }
+
+  .step-number {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 680px) {
+  .how-it-works {
+    grid-template-columns: 1fr;
+    gap: 48px;
+
+    padding-top: 48px;
+    padding-bottom: 56px;
+  }
+
+  .how-heading h2 {
+    font-size: clamp(40px, 10vw, 52px);
+    letter-spacing: -1.8px;
+  }
+
+  .how-heading p {
+    max-width: 400px;
+    margin-top: 20px;
+  }
+
+  .heart-decoration {
+    margin-top: 32px;
+  }
+
+  .how-step {
+    grid-template-columns: 56px minmax(0, 1fr) 18px;
+    gap: 14px;
+
+    min-height: 105px;
+    padding: 20px 0;
+  }
+
+  .step-number {
+    font-size: 34px;
+  }
+
+  .step-content h3 {
+    font-size: 17px;
+  }
+
+  .step-content p {
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 380px) {
+  .how-step {
+    grid-template-columns: 46px minmax(0, 1fr) 16px;
+    gap: 10px;
+  }
+
+  .step-number {
+    font-size: 30px;
+  }
+}
