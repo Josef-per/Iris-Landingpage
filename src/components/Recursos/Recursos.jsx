@@ -2,7 +2,9 @@
 
 
 //import de imagens
-import {BookOpen, UserGroup, Heart} from "lucide-react"
+import { BookOpen, UserGroup, Heart} from "lucide-react"
+
+import Article from "./Articles/Article"
 
 export default function Recursos() {
 
@@ -31,61 +33,28 @@ export default function Recursos() {
 
         <div className="feature-grid">
 
-          <article className="feature">
-            <span className="feature-icon">
-              <BookOpen />
-            </span>
+          <Article
+            icon={<BookOpen />}
+            number="01"
+            title="Registre seu dia"
+            description="Anote emoções e refeições e consulte seu histórico."
+          />
 
-            <span className="feature-number">
-              01
-            </span>
+          <Article
+            icon={<UserGroup />}
+            number="01"
+            title="Registre seu dia"
+            description="Anote emoções e refeições e consulte seu histórico."
+          />
 
-            <h3>
-              Registre seu dia
-            </h3>
+          <Article
+            icon={<Heart />}
+            number="01"
+            title="Registre seu dia"
+            description="Anote emoções e refeições e consulte seu histórico."
+          />
 
-            <p>
-              Anote emoções e refeições e consulte seu histórico.
-            </p>
-          </article>
 
-          <article className="feature">
-            <span className="feature-icon">
-              <UserGroup />
-            </span>
-
-            <span className="feature-number">
-              02
-            </span>
-
-            <h3>
-              Compartilhe o cuidado
-            </h3>
-
-            <p>
-              Use um convite QR para se vincular ao profissional
-              e consultar seu plano de cuidado.
-            </p>
-          </article>
-
-          <article className="feature">
-            <span className="feature-icon">
-              <Heart />
-            </span>
-
-            <span className="feature-number">
-              03
-            </span>
-
-            <h3>
-              Acompanhe pacientes
-            </h3>
-
-            <p>
-              Organize consultas, registros, anotações e planos
-              na área profissional.
-            </p>
-          </article>
 
         </div>
       </section>
